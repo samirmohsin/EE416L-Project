@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+body{
+    padding: 1%;
+}
+
 h1{
     text-align: center;
 }
