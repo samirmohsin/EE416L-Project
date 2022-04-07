@@ -1,0 +1,37 @@
+.hardwareManagement {
+    text-align: center;
+}
+.hardwareManagement {
+    background-color: #4f777c;
+    min-height: 150vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 34px;
+    font-weight: bold;
+    color: white;
+}
+.check {
+    font-size: 20px;
+    text-decoration: underline;
+    position: absolute;
+    padding-top: 200px;
+    left: 100px;
+}
+
+.dropdown{
+    color: black;
+    height: 40px;
+}
+
+.quantity{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.table{
+    margin-left: 400px;
+    padding-top: 90px;
+}
+
+
+

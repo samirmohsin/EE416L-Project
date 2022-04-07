@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;  
+}
+
+.project-table {
+  padding-top: 0%;
+}
+
+.select-button {
+  padding-top: 10px;
+}
+
+.enter-project {
+  display: flex;
+} 
+
+.submit-form {
+  padding-right: 10px;
+}
+
+.select-project {
+  display: flex;
+}

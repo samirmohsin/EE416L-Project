@@ -1,0 +1,17 @@
+.Login {
+    text-align: center;
+    horiz-align: center;
+    }
+
+.Login form{
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+}
+
+input{
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
