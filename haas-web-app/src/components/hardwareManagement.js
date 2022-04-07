@@ -23,11 +23,8 @@ function HardwareManagement() {
     }
     
     const rows = [
-        createData('HW Set 1', 159, 200,),
-        createData('HW Set 2', 237, 150,),
-        createData('HW Set 3', 262, 300,),
-        createData('HW Set 4', 305, 300),
-        createData('HW Set 5', 356, 500),
+        createData('HW Set 1', 200, 200,),
+        createData('HW Set 2', 200, 200,),
     ];
 
   return (
@@ -42,18 +39,15 @@ function HardwareManagement() {
                 <Select className="dropdown">
                     <MenuItem value="HW Set 1">HW Set 1</MenuItem>
                     <MenuItem value="HW Set 2">HW Set 2</MenuItem>
-                    <MenuItem value="HW Set 3">HW Set 3</MenuItem>
-                    <MenuItem value="HW Set 4">HW Set 4</MenuItem>
-                    <MenuItem value="HW Set 5">HW Set 5</MenuItem>
                 </Select>
-                <Button  component={Paper} variant={"contained"} size={"small"} color={"secondary"}>select</Button>
+                <Button  component={Paper} variant={"contained"} size={"small"}>select</Button>
             </div>
             <div className="quantity">
                 <header> Quantity:</header>
-                <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" color={"secondary"} />
+                <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
             </div>
-            <Button variant={"contained"} size={"medium"} color={"secondary"}>Check-in</Button>
-            <Button variant={"contained"} size={"medium"} color={"secondary"}>Checkout</Button>
+            <Button variant={"contained"} size={"medium"} >Check-in</Button>
+            <Button variant={"contained"} size={"medium"} >Checkout</Button>
         </div>
             
         <div>

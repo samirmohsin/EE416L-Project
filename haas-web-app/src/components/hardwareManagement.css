@@ -2,13 +2,13 @@
     text-align: center;
 }
 .hardwareManagement {
-    background-color: #4f777c;
+    background-color: white;
     min-height: 150vh;
     display: flex;
     flex-direction: column;
     font-size: 34px;
     font-weight: bold;
-    color: white;
+    color: black;
 }
 .check {
     font-size: 20px;
