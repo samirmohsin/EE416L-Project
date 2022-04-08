@@ -1,9 +1,7 @@
-import { InputLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import {useState} from 'react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import {MenuItem, Select} from '@mui/material';
 import {Box} from '@mui/system';
 import {TextField} from '@mui/material';import './projects.css';
 import {Link} from 'react-router-dom';
@@ -43,6 +41,10 @@ function Projects() {
         setProjects(updateList);
     }
 
+    const handleJoin = (e) => {
+        alert("Successfully joined project ID: " + selectedProject);
+    }
+
 
     return (
         <>  
@@ -67,24 +69,18 @@ function Projects() {
                 Join or Modify an Existing Project
             </h2>
             <div className='select-project'>
-                <Button sx={{mt: 2, mr: 1, mb:2}} variant='outlined'>Join Project</Button>
-                <Button sx={{mt: 2, mr: 1, mb:2}} variant='outlined'>Checkout/Checkin</Button>
-                <Button sx={{mt: 2, mb:2}} variant='outlined' onClick={handleDelete}>Delete Project</Button> 
+                <Box sx={{width: 1/4, mr: 5}}>
+                    <FormControl fullWidth>
+                        <TextField label='Enter Project ID' value={selectedProject} onChange={handleChange}></TextField>                
+                    </FormControl>
+                </Box>   
+                <Button sx={{mt: 0, mr: 1, mb:0}} variant='outlined' onClick={handleJoin}>Join Project</Button>
+                <Button sx={{mt: 0, mr: 1, mb:0}} variant='outlined'>
+                    <Link to='/hardwareManagement'>Checkout/Checkin</Link>
+                </Button>               
+                <Button sx={{mt: 0, mb:0}} variant='outlined' onClick={handleDelete}>Delete Project</Button>             
             </div>
-
-            <Box sx={{width: 1/4}}>
-                <FormControl fullWidth>
-                    <InputLabel>
-                        Select Project by ID
-                    </InputLabel>
-                    <Select label='Project Name' value={selectedProject ?? ""} onChange={handleChange}>
-                        {projects.map(({key, projectID}) => (
-                            <MenuItem key={key} value={projectID}>{projectID}</MenuItem>
-                        ))}
-                    </Select>           
-                </FormControl>
-            </Box>   
-            
+        
             <h2>
                 Available Projects
             </h2>

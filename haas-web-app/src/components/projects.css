@@ -2,6 +2,8 @@ h1 {
   text-align: center;  
 }
 
+
+
 .project-table {
   padding-top: 0%;
 }
@@ -11,6 +13,7 @@ h1 {
 }
 
 .enter-project {
+  margin-top: 20px;
   display: flex;
 } 
 
@@ -20,4 +23,6 @@ h1 {
 
 .select-project {
   display: flex;
+  margin-top: 10px;
+  margin-bottom: 100px;
 }
