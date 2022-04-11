@@ -1,5 +1,6 @@
 import React, {Component, useState} from "react";
-import {Button, Stack, TextField} from "@mui/material";
+import {Button, linkClasses, Stack, TextField} from "@mui/material";
+import {Link} from 'react-router-dom';
 import "./createAccount.css"
 
 export default function CreateAccount (){
@@ -7,17 +8,37 @@ export default function CreateAccount (){
     const [userId, setuserId] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
+    const [postResponse, setPostResponse] = useState("");
 
     function validateForm(){
         return userId.length > 0 && password.length > 0 && confirmPassword.length > 0;
     }
 
-    function handleSubmit(event){
+    const handleSubmit = (event) => {
+        event.preventDefault();
         if(password !== confirmPassword){
             alert("Passwords do not match")
             return;
         }
         alert("Username: "+ userId + "\nPassword: " + password);
+
+        fetch('http://127.0.0.1:5000/createUser', {
+            method:'POST',
+            cache: 'no-cache',
+            headers: {
+                'content_type':'application/json',
+            },
+            body:JSON.stringify({'username': userId, 'password': password})
+            }
+        ).then(response => response.json()
+        ).then(data => {
+            setPostResponse(data.resultVal)
+        })
+        
+        console.log(JSON.stringify(postResponse));
+        if (postResponse === 'ERROR') {
+            alert('Username Already Exists. Choose another one.')
+        }
     }
 
     return(
@@ -29,7 +50,9 @@ export default function CreateAccount (){
                     <TextField value={userId} onChange={(e) => setuserId(e.target.value)} id="standard-basic" variant="standard" required label="Enter a userID"/>
                     <TextField value={password} onChange={(e) => setPassword(e.target.value)} id="standard-basic" variant="standard" type="password" required label="Enter a Password"/>
                     <TextField value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} id="standard-basic" variant="standard" type="password" required label="Confirm Password"/>
-                    <Button variant ="contained" type="submit" disabled={!validateForm()}>Create Account</Button>
+                    <Button variant ="contained" type="submit" disabled={!validateForm()}>
+                        Create Account
+                    </Button>
                 </Stack>
             </form>
         </div>
