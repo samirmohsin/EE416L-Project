@@ -1,6 +1,7 @@
-import React, {Component, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {Button, linkClasses, Stack, TextField} from "@mui/material";
 import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import "./createAccount.css"
 
 export default function CreateAccount (){
@@ -9,6 +10,7 @@ export default function CreateAccount (){
     const [password, setPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
     const [postResponse, setPostResponse] = useState("");
+    const navigate = useNavigate();
 
     function validateForm(){
         return userId.length > 0 && password.length > 0 && confirmPassword.length > 0;
@@ -20,7 +22,7 @@ export default function CreateAccount (){
             alert("Passwords do not match")
             return;
         }
-        alert("Username: "+ userId + "\nPassword: " + password);
+        //alert("Username: "+ userId + "\nPassword: " + password);
 
         fetch('http://127.0.0.1:5000/createUser', {
             method:'POST',
@@ -34,12 +36,20 @@ export default function CreateAccount (){
         ).then(data => {
             setPostResponse(data.resultVal)
         })
-        
-        console.log(JSON.stringify(postResponse));
+
+    }
+        useEffect(()=>{
+            console.log(JSON.stringify(postResponse));
         if (postResponse === 'ERROR') {
             alert('Username Already Exists. Choose another one.')
+            return;
         }
-    }
+        if(postResponse === 'success'){
+            navigate('/');
+        }
+    },[postResponse])
+
+
 
     return(
         <body>
