@@ -6,9 +6,9 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='haas-web-app/build', static_url_path="")
 app.config['MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
 mongodb_client = PyMongo(app)
-#database = mongodb_client.db
+database = mongodb_client.db
 #projectsCol = database.projects
-#hwSetCol = database.hardwareSets
+hwSetCol = database.hardwareSets
 usersCol = mongodb_client.db.users
 
 CORS(app)
