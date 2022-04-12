@@ -7,7 +7,7 @@ app = Flask(__name__, static_folder='haas-web-app/build', static_url_path="")
 app.config['MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
 mongodb_client = PyMongo(app)
 database = mongodb_client.db
-#projectsCol = database.projects
+projectsCol = database.projects
 hwSetCol = database.hardwareSets
 usersCol = mongodb_client.db.users
 
@@ -62,16 +62,6 @@ def login():
     print("reach here")
     return jsonify({'resultVal': 'success'})
 
-
-# @app.route('/deleteProject/<project_ID>', methods=['GET'])
-# def deleteProject(project_ID: str):
-#   print(project_ID)
-# delete project in db if matches project id, else display error msg
-#  query = {"ID": str(project_ID)}
-# col.delete_one(query)
-# print("done removing document")
-# data={'res': 'yes'}
-# return jsonify(data)
 def updateTable():
     HWSet = hwSetCol.find_one()
     if HWSet is not None:
@@ -85,23 +75,54 @@ def updateTable():
         print(capacity2)
         print(availability2)
 
+@app.route('/deleteProject/<project_ID>', methods=['GET'])
+def deleteProject(project_ID: str):
+    #delete project in db if matches project id, else display error msg
+    checkID = projectsCol.find_one({'ID': {'$eq': project_ID}})
+    #check that ID actually exists/associated w/ a project
+    if checkID is None:
+        return jsonify({'resultVal': 'ERROR'})
 
-# @app.route('/deleteProject/<project_ID>', methods=['GET'])
-# def deleteProject(project_ID: str):
-#   print(project_ID)
-# delete project in db if matches project id, else display error msg
-#  query = {"ID": str(project_ID)}
-# col.delete_one(query)
-# print("done removing document")
-# data={'res': 'yes'}
-# return jsonify(data)
+    projectsCol.delete_one({'ID': {'$eq': project_ID}})
+    return jsonify({'resultVal': 'success'})
 
-#@app.route('/addProject', methods=["POST"])
-#def addProject():
- #   return 1
-    #add project to db, if other project exists in db then return error
+@app.route('/createProject', methods=["POST"])
+def createProject():
+    newProject = request.get_json()
+    projectName = newProject['name']
+    projectDescription = newProject['description']
+    projectID = newProject['id']
 
-#@app.route('/joinProject'/, methods=["POST"])
+    #check that ID isn't associated w/ existing project
+    checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
+    if checkID is not None:
+        return jsonify({'resultVal': 'ERROR'})
+    
+    #else add new project to db
+    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID', projectID}
+    projectsCol.insert_one(newProjectJSON)
+    return jsonify({'resultVal': 'success'})
+
+@app.route('/joinProject'/, methods=["POST"])
+def joinProject():
+    request = request.get_json()
+    projectID = request['id']
+    username = request['username']
+
+    #check that project ID exists and user isn't already part of the project
+    #check that id exists
+
+    checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
+    checkUser = usersCol.find_one({'projects': {'$eq': projectID}})
+
+    if checkID is None:
+        return jsonify({'resultVal': 'ERROR:id'})
+    elif is not None:
+        return jsonify({'resultVal': 'ERROR:user'})
+    
+    #else add user to project
+    usersCol.update_one({'username': {'$eq': username}}, {'$push': {'projects': projectID}})
+    return jsonify({'resultVal': 'success'})
 
 @app.route('/')
 def index():
