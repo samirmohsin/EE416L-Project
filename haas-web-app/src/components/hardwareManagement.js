@@ -10,7 +10,7 @@ import {
     Table,
     TableRow,
     Paper,
-    TableCell, TableBody, Box
+    TableCell, TableBody, Box, TextField
 } from "@mui/material";
 import {Link} from 'react-router-dom';
 
@@ -44,7 +44,7 @@ function HardwareManagement() {
             </div>
             <div className="quantity">
                 <header> Quantity:</header>
-                <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+                <TextField id="Quant" label="Enter Quantity" variant="outlined" />
             </div>
             <Button variant={"contained"} size={"medium"} >Check-in</Button>
             <Button variant={"contained"} size={"medium"} >Checkout</Button>
