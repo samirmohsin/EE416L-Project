@@ -81,10 +81,10 @@ def deleteProject(project_ID: str):
     checkID = projectsCol.find_one({'ID': {'$eq': project_ID}})
     #check that ID actually exists/associated w/ a project
     if checkID is None:
-        return jsonify({'resultVal': 'ERROR'})
+        return jsonify({'resultVal': 'ERROR:delete'})
 
     projectsCol.delete_one({'ID': {'$eq': project_ID}})
-    return jsonify({'resultVal': 'success'})
+    return jsonify({'resultVal': 'success:delete'})
 
 @app.route('/createProject', methods=["POST"])
 def createProject():
@@ -96,18 +96,18 @@ def createProject():
     #check that ID isn't associated w/ existing project
     checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
     if checkID is not None:
-        return jsonify({'resultVal': 'ERROR'})
+        return jsonify({'resultVal': 'ERROR:create'})
     
     #else add new project to db
-    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID', projectID}
+    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID': projectID}
     projectsCol.insert_one(newProjectJSON)
-    return jsonify({'resultVal': 'success'})
+    return jsonify({'resultVal': 'success:create'})
 
-@app.route('/joinProject'/, methods=["POST"])
+@app.route('/joinProject', methods=["POST"])
 def joinProject():
-    request = request.get_json()
-    projectID = request['id']
-    username = request['username']
+    joinRequest = request.get_json()
+    projectID = joinRequest['id']
+    username = joinRequest['username']
 
     #check that project ID exists and user isn't already part of the project
     #check that id exists
@@ -116,13 +116,13 @@ def joinProject():
     checkUser = usersCol.find_one({'projects': {'$eq': projectID}})
 
     if checkID is None:
-        return jsonify({'resultVal': 'ERROR:id'})
-    elif is not None:
-        return jsonify({'resultVal': 'ERROR:user'})
+        return jsonify({'resultVal': 'ERROR:join:id'})
+    elif checkUser is not None:
+        return jsonify({'resultVal': 'ERROR:join:user'})
     
     #else add user to project
     usersCol.update_one({'username': {'$eq': username}}, {'$push': {'projects': projectID}})
-    return jsonify({'resultVal': 'success'})
+    return jsonify({'resultVal': 'success:join'})
 
 @app.route('/')
 def index():

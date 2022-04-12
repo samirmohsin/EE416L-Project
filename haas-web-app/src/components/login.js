@@ -47,6 +47,7 @@ export default function Login() {
         }
 
         if(postResponse === 'success'){
+            window.sessionStorage.setItem('username', userId); //keep userId so other components can use it
             navigate('/links');
         }
     },[navigate, postResponse])
