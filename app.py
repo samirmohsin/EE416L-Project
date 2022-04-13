@@ -83,6 +83,32 @@ def updateTable():
     return jsonify({"Availability1": availability1, "Availability2": availability2})
 
 
+@app.route('/updateAvailability', methods=["POST"])
+def updateAvailability():
+    result = request.get_json()
+    quantity = int(result['quantity'])
+
+    id = '6254c4de3e106eb5b6d0f793'
+    hardwareSetId = ObjectId(id)
+    HWSet = hwSetCol.find_one({'_id': {'$eq': hardwareSetId}})
+    availability1 = int(HWSet["Availability1"])
+    availability2 = int(HWSet["Availability2"])
+
+    # add code later to update only the required hardware set
+    # for now adds quantity back to HWset1 availability
+    newAvailability = availability1 - quantity
+
+    post = {"_id": id,
+            "Name": "HWSets",
+            "Capacity1": "200",
+            "Availability1": newAvailability,
+            "Capacity2": "200",
+            "Availability2": "200"}
+    hwSetCol.insert_one(post)
+
+
+
+
 @app.route('/deleteProject/<project_ID>', methods=['GET'])
 def deleteProject(project_ID: str):
     # delete project in db if matches project id, else display error msg
