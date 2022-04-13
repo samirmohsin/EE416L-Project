@@ -120,9 +120,8 @@ function Projects() {
 
     },[postResponse])
 
-    componentDidMount(() => {
-        console.log('inside component did mount')
-        //update stored table data
+    useEffect(() => {
+        console.log('inside component did mount/useeffect')
         fetch('http://127.0.0.1:5000/updateProjects/' + window.sessionStorage.getItem('username'))
         .then(response => response.json())
         .then(async data => {
@@ -130,7 +129,8 @@ function Projects() {
         }).catch(error => {
             console.log(error)
         })
-    }) 
+    })
+
 
     return (
         <>  
