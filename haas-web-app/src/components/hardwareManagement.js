@@ -13,6 +13,7 @@ import {
     TableCell, TableBody, Box, TextField
 } from "@mui/material";
 import {Link} from 'react-router-dom';
+import {useEffect, useState} from "react";
 
 
 
@@ -21,11 +22,26 @@ function HardwareManagement() {
     function createData(name, availability, capacity) {
         return { name, availability, capacity};
     }
+
+    const[availability1,setSvailability1] = useState(0);
+    const[availability2,setAvailability2] = useState(0);
     
     const rows = [
-        createData('HW Set 1', 200, 200,),
-        createData('HW Set 2', 200, 200,),
+        createData('HW Set 1', availability1, 200,),
+        createData('HW Set 2', availability2, 200,),
     ];
+
+    useEffect(()=>{
+          fetch("http://127.0.0.1:5000/hardwareManagement" )
+            .then(response => response.json())
+            .then(async data=> {
+                await setSvailability1(data.Availability1)
+                await setAvailability2(data.Availability2)
+            })
+            .catch(error=> {
+                console.log(error)
+            })
+    },[availability1,availability2])
 
   return (
     <div className="hardwareManagement">
@@ -44,6 +60,7 @@ function HardwareManagement() {
             </div>
             <div className="quantity">
                 <header> Quantity:</header>
+                <br/>
                 <TextField id="Quant" label="Enter Quantity" variant="outlined" />
             </div>
             <Button variant={"contained"} size={"medium"} >Check-in</Button>
