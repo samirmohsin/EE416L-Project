@@ -24,13 +24,13 @@ function Projects() {
         /**For now just output to the page directly w/o the backend
          * ideally, check if project already exists w/ backend/database here
          */
-        const newUserProject = {
+/*        const newUserProject = {
             key: Math.random(),
             projectID: newProjectID,
             description: newProjectDescription,
             value: newProjectName
         }
-        setProjects(projects.concat(newUserProject));
+        setProjects(projects.concat(newUserProject)); */
 
         fetch("http://127.0.0.1:5000/createProject", {
             method:'POST',
@@ -56,18 +56,16 @@ function Projects() {
             .catch(error=> {
                 console.log(error)
             })
-        
-   
-        
+           
         //remove this once backend can send all projects to frontend 
         //also should probably update capacity and stuff for the hw sets 
         //or just dont allow deletion if stuff is still checked out
         //also needs to delete project from all the users too
-        const key = selectedProject;
+       /* const key = selectedProject;
         const list = [...projects];
         const updateList = list.filter(item => item.projectID !== key);
         setSelectedProject("");
-        setProjects(updateList);
+        setProjects(updateList); */
     }
 
     const handleJoin = (e) => {
@@ -99,6 +97,7 @@ function Projects() {
 
         if (postResponse === 'success:join') {
             alert("Successfully joined project ID: " + selectedProject);
+            window.location.reload();
         }
 
         if (postResponse === 'ERROR:delete') {
@@ -106,7 +105,8 @@ function Projects() {
         }
 
         if (postResponse === 'success:delete') {
-            alert('Project ' + selectedProject + ' successfully deleted.')
+            alert('Project ' + selectedProject + ' successfully deleted.');
+            window.location.reload();
         }
 
         if (postResponse === 'ERROR:create') {
@@ -115,9 +115,22 @@ function Projects() {
 
         if (postResponse === 'success:create') {
             alert('Successfully created project ID: ' + newProjectID);
+            window.location.reload();
         }
 
     },[postResponse])
+
+    componentDidMount(() => {
+        console.log('inside component did mount')
+        //update stored table data
+        fetch('http://127.0.0.1:5000/updateProjects/' + window.sessionStorage.getItem('username'))
+        .then(response => response.json())
+        .then(async data => {
+            await setProjects(data.resultVal)
+        }).catch(error => {
+            console.log(error)
+        })
+    }) 
 
     return (
         <>  
@@ -164,8 +177,8 @@ function Projects() {
                                 <TableCell>Project Name</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Project ID</TableCell>
-                                <TableCell>HW Set 1</TableCell>
-                                <TableCell>HW Set 2</TableCell>
+                                <TableCell>HW Set 1 Checked-Out</TableCell>
+                                <TableCell>HW Set 2 Checked-Out</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
