@@ -232,8 +232,8 @@ def joinProject():
     # check that id exists
 
     checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
-    checkUser = usersCol.find_one({'projects': {'$eq': projectID}})
-
+    checkUser = usersCol.find_one({'username': username, 'projects': {'$in': [projectID]}})
+    
     if checkID is None:
         return jsonify({'resultVal': 'ERROR:join:id'})
     elif checkUser is not None:
