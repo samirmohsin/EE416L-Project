@@ -7,8 +7,7 @@ from flask.helpers import send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder='haas-web-app/build', static_url_path="")
-app.config[
-    'MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
 mongodb_client = PyMongo(app)
 database = mongodb_client.db
 projectsCol = database.projects
@@ -107,8 +106,6 @@ def updateAvailability():
     hwSetCol.insert_one(post)
 
 
-
-
 @app.route('/deleteProject/<project_ID>', methods=['GET'])
 def deleteProject(project_ID: str):
     # delete project in db if matches project id, else display error msg
@@ -159,6 +156,12 @@ def joinProject():
     # else add user to project
     usersCol.update_one({'username': {'$eq': username}}, {'$push': {'projects': projectID}})
     return jsonify({'resultVal': 'success:join'})
+
+
+@app.route('/getProject/<username>', methods=['GET'])
+def getProjectTables(username: str):
+    user_info = usersCol.find_one({'username': {'$eq': username}})
+    return user_info.projects
 
 
 @app.route('/')
