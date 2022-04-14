@@ -7,7 +7,8 @@ from flask.helpers import send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder='haas-web-app/build', static_url_path="")
-app.config['MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
+app.config[
+    'MONGO_URI'] = "mongodb+srv://sw-lab-project:ohN8rtvME3zCHApd@cluster0.b7kzb.mongodb.net/database?retryWrites=true&w=majority"
 mongodb_client = PyMongo(app)
 database = mongodb_client.db
 projectsCol = database.projects
@@ -82,10 +83,12 @@ def updateTable():
     return jsonify({"Availability1": availability1, "Availability2": availability2})
 
 
-@app.route('/updateAvailability', methods=["POST"])
-def updateAvailability():
+@app.route('/checkOut', methods=["POST"])
+def checkOut():
     result = request.get_json()
     quantity = int(result['quantity'])
+    HWset = (result['set'])
+    print(HWset)
 
     id = '6254c4de3e106eb5b6d0f793'
     hardwareSetId = ObjectId(id)
@@ -93,17 +96,23 @@ def updateAvailability():
     availability1 = int(HWSet["Availability1"])
     availability2 = int(HWSet["Availability2"])
 
-    # add code later to update only the required hardware set
-    # for now adds quantity back to HWset1 availability
-    newAvailability = availability1 - quantity
+    # Update the availability based on quantity, if too much, send an error message
+    if HWset == 'HW Set 1':
+        if quantity > availability1:
+            return jsonify({'resultVal': 'ERROR:too much checked out'})
+        else:
+            newAvailability = availability1 - quantity
+            hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability1': newAvailability}})
+    elif HWset == 'HW Set 2':
+        if quantity > availability2:
+            return jsonify({'resultVal': 'ERROR:too much checked out'})
+        else:
+            newAvailability = availability2 - quantity
+            hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability2': newAvailability}})
 
-    post = {"_id": id,
-            "Name": "HWSets",
-            "Capacity1": "200",
-            "Availability1": newAvailability,
-            "Capacity2": "200",
-            "Availability2": "200"}
-    hwSetCol.insert_one(post)
+    return jsonify({"Availability1": availability1, "Availability2": availability2})
+
+
 
 
 @app.route('/deleteProject/<project_ID>', methods=['GET'])

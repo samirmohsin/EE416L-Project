@@ -129,8 +129,7 @@ function Projects() {
         }).catch(error => {
             console.log(error)
         })
-    })
-
+    }) 
 
     return (
         <>  
