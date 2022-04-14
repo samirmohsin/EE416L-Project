@@ -54,7 +54,7 @@ function HardwareManagement() {
     }
 
     const checkIn = event =>{
-        fetch('http://127.0.0.1:5000/checkIn' + window.sessionStorage.getItem('username'), {
+        fetch('http://127.0.0.1:5000/checkIn/' + window.sessionStorage.getItem('username'), {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
