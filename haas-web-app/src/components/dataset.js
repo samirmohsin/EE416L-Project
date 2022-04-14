@@ -20,22 +20,23 @@ export default function Dataset(){
                 </tr>
                 <tr>
                 <td><a
-                        href="https://physionet.org/content/aftdb/1.0.0/"
+                        href="https://physionet.org/content/mmgdb/1.0.0/"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        AF Termination Challenge Database
+                        MMG Database
                     </a></td>
-                <td>George Moody</td>
+                <td>Diana Escalona-Vargas</td>
                 <td>
-                    This database of two-channel ECG recordings has been created for use in the Computers 
-                    in Cardiology Challenge 2004, an open competition with the goal of developing automated methods 
-                    for predicting spontaneous termination of atrial fibrillation (AF).
+                This database contains uterine magnetomyographic (MMG) signals recorded using the 151 channel 
+                SARA (SQUID Array for Reproductive Assessment) system installed at UAMS, Little Rock, USA. 
+                Recordings are taken from 25 subjects who presented themselves in the Triage unit of 
+                Labor and Delivery and were undergoing monitoring and evaluation of labor. 
                 </td>
                 <td>
                     <a
                         className="ds-downlink"
-                        href="https://physionet.org/static/published-projects/aftdb/af-termination-challenge-database-1.0.0.zip"
+                        href="https://physionet.org/static/published-projects/mmgdb/mmg-database-1.0.0.zip"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -96,23 +97,23 @@ export default function Dataset(){
                 </tr>
                 <tr>
                 <td><a
-                    href="https://physionet.org/content/charisdb/1.0.0/"
+                    href="https://physionet.org/content/macecgdb/1.0.0/"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    CHARIS database
+                    Motion Artifact Contaminated ECG Database
                 </a></td>
-                <td>William Craelius</td>
+                <td>PhysioNet Support MIT</td>
                 <td>
-                The CHARIS database contains multi-channel recordings of ECG, arterial blood pressure (ABP), and intracranial pressure (ICP) 
-                of patients diagnosed with traumatic brain injury (TBI). The data is contributed by members of the CHARIS project
-                which aims to systematize the analysis of relevant physiological signals, and create data-driven algorithms to search for 
-                potential predictors of acute clinical events for patients with acute brain injury.
+                    Short duration ECG signals are recorded from a healthy 25-year-old male performing different physical 
+                    activities to study the effect of motion artifacts on ECG signals and their sparsity.
+                    For each measurement, 4 pairs of electrodes built into a single patch are placed on the subject. 
+                    The electrodes are arranged at 45-degree offsets.
                 </td>
                 <td>
                     <a
                         className="ds-downlink"
-                        href="https://physionet.org/static/published-projects/charisdb/charis-database-1.0.0.zip"
+                        href="https://physionet.org/static/published-projects/macecgdb/motion-artifact-contaminated-ecg-database-1.0.0.zip"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
