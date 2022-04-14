@@ -124,6 +124,7 @@ def createProject():
     projectName = newProject['name']
     projectDescription = newProject['description']
     projectID = newProject['id']
+    username = newProject['username']
 
     # check that ID isn't associated w/ existing project
     checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
@@ -131,8 +132,9 @@ def createProject():
         return jsonify({'resultVal': 'ERROR:create'})
 
     # else add new project to db
-    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID': projectID}
+    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID': projectID, 'HWSet1_checked_out': 0, 'HWSet2_checked_out': 0}
     projectsCol.insert_one(newProjectJSON)
+    usersCol.update_one({'username': {'$eq': username}}, {'$push': {'projects': projectID}})
     return jsonify({'resultVal': 'success:create'})
 
 
@@ -158,10 +160,20 @@ def joinProject():
     return jsonify({'resultVal': 'success:join'})
 
 
-@app.route('/getProject/<username>', methods=['GET'])
+@app.route('/updateProjects/<username>', methods=['GET'])
 def getProjectTables(username: str):
     user_info = usersCol.find_one({'username': {'$eq': username}})
-    return user_info.projects
+    #get project id array from the user
+    projectIDs = user_info['projects']
+    #print(projectIDs)
+    projectsJSON = {'resultVal': []}
+    for ID in projectIDs:
+        project = projectsCol.find_one({'ID': {'$eq': ID}}, {'_id': 0})
+        if project is not None:
+            projectsJSON['resultVal'].append(project)
+    
+    print(projectsJSON)
+    return jsonify(projectsJSON)
 
 
 @app.route('/')

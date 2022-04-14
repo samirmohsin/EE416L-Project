@@ -38,7 +38,7 @@ function Projects() {
             headers: {
                 'content_type':'application/json',
             },
-            body:JSON.stringify({'name': newProjectName, 'description': newProjectDescription, 'id': newProjectID})
+            body:JSON.stringify({'name': newProjectName, 'description': newProjectDescription, 'id': newProjectID, 'username': window.sessionStorage.getItem('username')})
         }).then(response => response.json()
         ).then(async data => {
             await setPostResponse(data.resultVal)
@@ -120,8 +120,7 @@ function Projects() {
 
     },[postResponse])
 
-    useEffect(() => {
-        console.log('inside component did mount/useeffect')
+    const getProjects = async () => {
         fetch('http://127.0.0.1:5000/updateProjects/' + window.sessionStorage.getItem('username'))
         .then(response => response.json())
         .then(async data => {
@@ -129,7 +128,15 @@ function Projects() {
         }).catch(error => {
             console.log(error)
         })
-    })
+        //console.log(projects)
+    };
+
+
+    useEffect(() => {
+       console.log(projects)
+        const timer = setInterval(getProjects, 2000);
+        return () => clearInterval(timer);
+    },[])
 
 
     return (
@@ -168,31 +175,35 @@ function Projects() {
             </div>
         
             <h2>
-                Available Projects
+                Available (Joined/Created) Projects
             </h2>
-            <TableContainer className='project-table'>    
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Project Name</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Project ID</TableCell>
-                                <TableCell>HW Set 1 Checked-Out</TableCell>
-                                <TableCell>HW Set 2 Checked-Out</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {projects.map(({key, value, description, projectID}) => (
-                                <TableRow key={key}>
-                                    <TableCell key={key}>{value}</TableCell>
-                                    <TableCell key={key}>{description}</TableCell>
-                                    <TableCell key={key}>{projectID}</TableCell>
-                                </TableRow>
-                                
-                            ))}
-                        </TableBody>
-                    </Table>
-            </TableContainer>
+            <div>
+                {projects.map(({name, description, ID, HWSet1_checked_out, HWSet2_checked_out}) => (
+                    <div>
+
+                        <h3>
+                            Project Name: {name}
+                        </h3>
+                        <ol>
+                            <li key={description}> 
+                                Description: {description}
+                            </li>
+                            <li key={ID}>
+                                ID: {ID}
+                            </li>
+
+                            <li key={HWSet1_checked_out}>
+                                HWSet 1 Checked Out: {HWSet1_checked_out}  
+                            </li>
+
+                            <li key={HWSet2_checked_out}>
+                                HWSet 2 Checked Out: {HWSet2_checked_out}
+                            </li>
+                            
+                        </ol>
+                    </div>
+                ))}
+            </div>
         </>
     );
 }
