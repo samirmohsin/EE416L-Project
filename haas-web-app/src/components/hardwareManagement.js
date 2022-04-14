@@ -25,25 +25,37 @@ function HardwareManagement() {
     const[availability1,setAvailability1] = useState(0);
     const[availability2,setAvailability2] = useState(0);
     const[quantity, setQuantity] =  useState("");
-    
+    const[selectedHWSet,setSelectedHWSet] = useState("");
+    const[postResponse,setPostResponse]= useState("");
+
     const rows = [
         createData('HW Set 1', availability1, 200,),
         createData('HW Set 2', availability2, 200,),
     ];
 
-    const handleSubmit = event =>{
-        event.preventDefault();
+    const checkOut = event =>{
+        console.log(selectedHWSet);
 
-        fetch('http://127.0.0.1:5000/updateAvailability', {
+        fetch('http://127.0.0.1:5000/checkOut', {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
                     'content_type':'application/json',
                 },
-                body:JSON.stringify({'quantity': quantity})
+                body:JSON.stringify({'quantity': quantity,'set':selectedHWSet})
             }
-        ).then(response => response.json())
+        ).then(response => response.json()
+        ).then(async data => {
+            await setPostResponse(data.resultVal)
+        })
+        window.location.reload();
     }
+
+    useEffect( () =>{
+        if(postResponse === 'ERROR:too much checked out'){
+            alert("Too much checked out, try smaller value")
+        }
+    },[postResponse])
 
     useEffect(()=>{
           fetch("http://127.0.0.1:5000/hardwareManagement" )
@@ -57,21 +69,25 @@ function HardwareManagement() {
             })
     },[availability1,availability2])
 
+
+    const handleDropDown = e => setSelectedHWSet(e.target.value)
+
   return (
     <div className="hardwareManagement">
         <header className="hardwareManagement-header">
             <p> Hardware Management </p>
         </header>
         <div className="check">
-            <form onSubmit={handleSubmit}>
+            <form>
                 <header> Check-In/Checkout</header>
-                <p>Set #:</p>
+                <br/>
+                <p>Select a Hardware Set</p>
+                <br/>
                 <div className="select">
-                    <Select className="dropdown">
+                    <Select className="dropdown" onChange={handleDropDown}>
                         <MenuItem value="HW Set 1">HW Set 1</MenuItem>
                         <MenuItem value="HW Set 2">HW Set 2</MenuItem>
                     </Select>
-                    <Button  component={Paper} variant={"contained"} size={"small"}>select</Button>
                 </div>
                 <div className="quantity">
                     <header> Quantity:</header>
@@ -79,7 +95,7 @@ function HardwareManagement() {
                     <TextField id="Quant" label="Enter Quantity" variant="outlined" value={quantity} onChange={(e)=> setQuantity(e.target.value)} />
                 </div>
                 <Button variant={"contained"} size={"medium"} >Check-in</Button>
-                <Button variant={"contained"} size={"medium"} >Checkout</Button>
+                <Button variant={"contained"} size={"medium"} onClick={checkOut}  >Checkout</Button>
             </form>
         </div>
             
