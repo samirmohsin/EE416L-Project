@@ -39,7 +39,7 @@ function HardwareManagement() {
     const checkOut = event =>{
         console.log(selectedHWSet);
 
-        fetch('http://127.0.0.1:5000/checkOut', {
+        fetch('http://127.0.0.1:5000/checkOut/' + window.sessionStorage.getItem('username'), {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
@@ -54,7 +54,7 @@ function HardwareManagement() {
     }
 
     const checkIn = event =>{
-        fetch('http://127.0.0.1:5000/checkIn', {
+        fetch('http://127.0.0.1:5000/checkIn' + window.sessionStorage.getItem('username'), {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
@@ -84,6 +84,11 @@ function HardwareManagement() {
 
         if(postResponse === 'ERROR:Invalid ProjectID'){
             alert("Invalid ProjectId, try again")
+            window.location.reload();
+        }
+
+        if(postResponse === 'ERROR:Not part of project'){
+            alert("You are not apart of this project.\nPlease go to the project page and join that project")
             window.location.reload();
         }
 

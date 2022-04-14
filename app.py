@@ -83,8 +83,8 @@ def updateTable():
     return jsonify({"Availability1": availability1, "Availability2": availability2})
 
 
-@app.route('/checkOut', methods=["POST"])
-def checkOut():
+@app.route('/checkOut/<username>', methods=['GET', 'POST'])
+def checkOut(username: str):
     result = request.get_json()
     quantity = int(result['quantity'])
     HWset = (result['set'])
@@ -99,12 +99,16 @@ def checkOut():
     if project is None:
         return jsonify({'resultVal': 'ERROR:Invalid ProjectID'})
 
+    userInProject = usersCol.find_one({'username': username, 'projects': {'$in': [projectID]}})
+
+    if userInProject is None:
+        return jsonify({'resultVal': 'ERROR:Not part of project'})
+
+
     projectAvailability1 = project["HWSet1_checked_out"]
     projectAvailability2 = project["HWSet2_checked_out"]
     availability1 = HWSet["Availability1"]
     availability2 = HWSet["Availability2"]
-
-
 
     # Update the availability based on quantity, if too much, send an error message
     if HWset == 'HW Set 1':
@@ -125,11 +129,11 @@ def checkOut():
             hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability2': newAvailability}})
             projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet2_checked_out': projectAvailability2}})
 
-    return jsonify({"Availability1": availability1, "Availability2": availability2,'resultVal': 'success'})
+    return jsonify({"Availability1": availability1, "Availability2": availability2, 'resultVal': 'success'})
 
 
-@app.route('/checkIn', methods=['POST'])
-def checkIn():
+@app.route('/checkIn/<username>', methods=['GET', 'POST'])
+def checkIn(username: str):
     result = request.get_json()
     quantity = int(result['quantity'])
     HWset = (result['set'])
@@ -147,7 +151,10 @@ def checkIn():
     projectCheckedOut1 = project["HWSet1_checked_out"]
     projectCheckedOut2 = project["HWSet2_checked_out"]
 
+    userInProject = usersCol.find_one({'username': username, 'projects': {'$in': [projectID]}})
 
+    if userInProject is None:
+        return jsonify({'resultVal': 'ERROR:Not part of project'})
 
     if HWset == 'HW Set 1':
         if quantity > projectCheckedOut1:
@@ -167,7 +174,7 @@ def checkIn():
             hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability2': availability2}})
             projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet2_checked_out': projectCheckedOut2}})
 
-    return jsonify({"Availability1": availability1, "Availability2": availability2,'resultVal': 'success'})
+    return jsonify({"Availability1": availability1, "Availability2": availability2, 'resultVal': 'success'})
 
 
 @app.route('/updateCheckedOut/<projectid>', methods=['GET'])
