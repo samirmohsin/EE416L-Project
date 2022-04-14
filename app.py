@@ -88,13 +88,23 @@ def checkOut():
     result = request.get_json()
     quantity = int(result['quantity'])
     HWset = (result['set'])
+    projectID = result['projectID']
     print(HWset)
 
     id = '6254c4de3e106eb5b6d0f793'
     hardwareSetId = ObjectId(id)
     HWSet = hwSetCol.find_one({'_id': {'$eq': hardwareSetId}})
-    availability1 = int(HWSet["Availability1"])
-    availability2 = int(HWSet["Availability2"])
+    project = projectsCol.find_one({'ID': {'$eq': projectID}})
+
+    if project is None:
+        return jsonify({'resultVal': 'ERROR:Invalid ProjectID'})
+
+    projectAvailability1 = project["HWSet1_checked_out"]
+    projectAvailability2 = project["HWSet2_checked_out"]
+    availability1 = HWSet["Availability1"]
+    availability2 = HWSet["Availability2"]
+
+
 
     # Update the availability based on quantity, if too much, send an error message
     if HWset == 'HW Set 1':
@@ -102,17 +112,74 @@ def checkOut():
             return jsonify({'resultVal': 'ERROR:too much checked out'})
         else:
             newAvailability = availability1 - quantity
+            projectAvailability1 += quantity
             hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability1': newAvailability}})
+            projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet1_checked_out': projectAvailability1}})
+
     elif HWset == 'HW Set 2':
         if quantity > availability2:
             return jsonify({'resultVal': 'ERROR:too much checked out'})
         else:
             newAvailability = availability2 - quantity
+            projectAvailability2 += quantity
             hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability2': newAvailability}})
+            projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet2_checked_out': projectAvailability2}})
 
-    return jsonify({"Availability1": availability1, "Availability2": availability2})
+    return jsonify({"Availability1": availability1, "Availability2": availability2,'resultVal': 'success'})
 
 
+@app.route('/checkIn', methods=['POST'])
+def checkIn():
+    result = request.get_json()
+    quantity = int(result['quantity'])
+    HWset = (result['set'])
+    projectID = result['projectID']
+
+    id = '6254c4de3e106eb5b6d0f793'
+    hardwareSetId = ObjectId(id)
+    HWSet = hwSetCol.find_one({'_id': {'$eq': hardwareSetId}})
+    availability1 = HWSet["Availability1"]
+    availability2 = HWSet["Availability2"]
+
+    project = projectsCol.find_one({'ID': {'$eq': projectID}})
+    if project is None:
+        return jsonify({'resultVal': 'ERROR:Invalid ProjectID'})
+    projectCheckedOut1 = project["HWSet1_checked_out"]
+    projectCheckedOut2 = project["HWSet2_checked_out"]
+
+
+
+    if HWset == 'HW Set 1':
+        if quantity > projectCheckedOut1:
+            return jsonify({'resultVal': 'ERROR:too much checked in'})
+        else:
+            availability1 += quantity
+            projectCheckedOut1 -= quantity
+            hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability1': availability1}})
+            projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet1_checked_out': projectCheckedOut1}})
+
+    elif HWset == 'HW Set 2':
+        if quantity > projectCheckedOut2:
+            return jsonify({'resultVal': 'ERROR:too much checked in'})
+        else:
+            availability2 += quantity
+            projectCheckedOut2 -= quantity
+            hwSetCol.update_one({'_id': {'$eq': hardwareSetId}}, {'$set': {'Availability2': availability2}})
+            projectsCol.update_one({'ID': {'$eq': projectID}}, {'$set': {'HWSet2_checked_out': projectCheckedOut2}})
+
+    return jsonify({"Availability1": availability1, "Availability2": availability2,'resultVal': 'success'})
+
+
+@app.route('/updateCheckedOut/<projectid>', methods=['GET'])
+def updateCheckedOut(projectid: str):
+    project = projectsCol.find_one({'ID': {'$eq': projectid}})
+    if project is None:
+        return jsonify({'Availability1': 0, 'Availability2': 0})
+
+    Availability1 = project['HWSet1_checked_out']
+    Availability2 = project['HWSet2_checked_out']
+
+    return jsonify({'Availability1': Availability1, 'Availability2': Availability2})
 
 
 @app.route('/deleteProject/<project_ID>', methods=['GET'])
@@ -141,7 +208,8 @@ def createProject():
         return jsonify({'resultVal': 'ERROR:create'})
 
     # else add new project to db
-    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID': projectID, 'HWSet1_checked_out': 0, 'HWSet2_checked_out': 0}
+    newProjectJSON = {'name': projectName, 'description': projectDescription, 'ID': projectID, 'HWSet1_checked_out': 0,
+                      'HWSet2_checked_out': 0}
     projectsCol.insert_one(newProjectJSON)
     usersCol.update_one({'username': {'$eq': username}}, {'$push': {'projects': projectID}})
     return jsonify({'resultVal': 'success:create'})
@@ -172,15 +240,15 @@ def joinProject():
 @app.route('/updateProjects/<username>', methods=['GET'])
 def getProjectTables(username: str):
     user_info = usersCol.find_one({'username': {'$eq': username}})
-    #get project id array from the user
+    # get project id array from the user
     projectIDs = user_info['projects']
-    #print(projectIDs)
+    # print(projectIDs)
     projectsJSON = {'resultVal': []}
     for ID in projectIDs:
         project = projectsCol.find_one({'ID': {'$eq': ID}}, {'_id': 0})
         if project is not None:
             projectsJSON['resultVal'].append(project)
-    
+
     print(projectsJSON)
     return jsonify(projectsJSON)
 

@@ -25,8 +25,11 @@ function HardwareManagement() {
     const[availability1,setAvailability1] = useState(0);
     const[availability2,setAvailability2] = useState(0);
     const[quantity, setQuantity] =  useState("");
+    const[projectID, setProjectID] =  useState("");
     const[selectedHWSet,setSelectedHWSet] = useState("");
     const[postResponse,setPostResponse]= useState("");
+    const[checkedOutAmount1,setCheckedOutAmount1]=useState(0);
+    const[checkedOutAmount2,setCheckedOutAmount2]=useState(0);
 
     const rows = [
         createData('HW Set 1', availability1, 200,),
@@ -42,19 +45,53 @@ function HardwareManagement() {
                 headers: {
                     'content_type':'application/json',
                 },
-                body:JSON.stringify({'quantity': quantity,'set':selectedHWSet})
+                body:JSON.stringify({'quantity': quantity,'set':selectedHWSet,'projectID':projectID})
             }
         ).then(response => response.json()
         ).then(async data => {
             await setPostResponse(data.resultVal)
         })
-        window.location.reload();
     }
+
+    const checkIn = event =>{
+        fetch('http://127.0.0.1:5000/checkIn', {
+                method:'POST',
+                cache: 'no-cache',
+                headers: {
+                    'content_type':'application/json',
+                },
+                body:JSON.stringify({'quantity': quantity,'set':selectedHWSet,'projectID':projectID})
+            }
+        ).then(response => response.json()
+        ).then(async data => {
+            await setPostResponse(data.resultVal)
+        })
+
+    }
+
+
 
     useEffect( () =>{
         if(postResponse === 'ERROR:too much checked out'){
             alert("Too much checked out, try smaller value")
+            window.location.reload();
         }
+
+        if(postResponse === 'ERROR:too much checked in'){
+            alert("Too much checked in, try smaller value")
+            window.location.reload();
+        }
+
+        if(postResponse === 'ERROR:Invalid ProjectID'){
+            alert("Invalid ProjectId, try again")
+            window.location.reload();
+        }
+
+        if(postResponse === 'success'){
+            window.location.reload();
+        }
+
+
     },[postResponse])
 
     useEffect(()=>{
@@ -69,6 +106,18 @@ function HardwareManagement() {
             })
     },[availability1,availability2])
 
+    //function to update checkedout amnounts
+    useEffect(()=>{
+        fetch("http://127.0.0.1:5000/updateCheckedOut/"+projectID )
+            .then(response => response.json())
+            .then(async data=> {
+                await setCheckedOutAmount1(data.Availability1)
+                await setCheckedOutAmount2(data.Availability2)
+            })
+            .catch(error=> {
+                console.log(error)
+            })
+    },[projectID])
 
     const handleDropDown = e => setSelectedHWSet(e.target.value)
 
@@ -90,11 +139,16 @@ function HardwareManagement() {
                     </Select>
                 </div>
                 <div className="quantity">
+                    <br/>
+                    <header>ProjectID:</header>
+                    <br/>
+                    <TextField id="ProjectID" label="Enter ProjectID" variant="outlined" value={projectID} onChange={(e)=> setProjectID(e.target.value)} />
+                    <br/><br/>
                     <header> Quantity:</header>
                     <br/>
                     <TextField id="Quant" label="Enter Quantity" variant="outlined" value={quantity} onChange={(e)=> setQuantity(e.target.value)} />
                 </div>
-                <Button variant={"contained"} size={"medium"} >Check-in</Button>
+                <Button variant={"contained"} size={"medium"} onClick={checkIn} >Check-in</Button>
                 <Button variant={"contained"} size={"medium"} onClick={checkOut}  >Checkout</Button>
             </form>
         </div>
@@ -130,7 +184,9 @@ function HardwareManagement() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
+                <br/>
+                <h6>Current Hardware Set 1 checked out amount: {checkedOutAmount1}</h6>
+                <h6>Current Hardware Set 2 checked out amount: {checkedOutAmount2}</h6>
             </Box>
 
         </div>
