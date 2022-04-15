@@ -69,7 +69,7 @@ def login():
     return jsonify({'resultVal': 'success'})
 
 
-@app.route('/hardwareManagement', methods=["GET"])
+@app.route('/updateHardwareManagement', methods=["GET"])
 def updateTable():
     id = '6254c4de3e106eb5b6d0f793'
     hardwareSetId = ObjectId(id)

@@ -100,7 +100,7 @@ function HardwareManagement() {
     },[postResponse])
 
     useEffect(()=>{
-          fetch("/hardwareManagement" )
+          fetch("/updateHardwareManagement" )
             .then(response => response.json())
             .then(async data=> {
                 await setAvailability1(data.Availability1)
