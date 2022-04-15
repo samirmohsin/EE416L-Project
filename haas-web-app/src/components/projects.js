@@ -35,7 +35,7 @@ function Projects() {
             method:'POST',
             cache: 'no-cache',
             headers: {
-                'content_type':'application/json',
+                'content-type':'application/json',
             },
             body:JSON.stringify({'name': newProjectName, 'description': newProjectDescription, 'id': newProjectID, 'username': window.sessionStorage.getItem('username')})
         }).then(response => response.json()
@@ -72,7 +72,7 @@ function Projects() {
             method: 'POST',
             cache: 'no-cache',
             headers: {
-                'content_type':'application/json',
+                'content-type':'application/json',
             },
             body:JSON.stringify({'id': selectedProject, 'username': window.sessionStorage.getItem('username')})
         }).then(response => response.json()

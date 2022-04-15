@@ -43,7 +43,7 @@ function HardwareManagement() {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
-                    'content_type':'application/json',
+                    'content-type':'application/json',
                 },
                 body:JSON.stringify({'quantity': quantity,'set':selectedHWSet,'projectID':projectID})
             }
@@ -58,7 +58,7 @@ function HardwareManagement() {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
-                    'content_type':'application/json',
+                    'content-type':'application/json',
                 },
                 body:JSON.stringify({'quantity': quantity,'set':selectedHWSet,'projectID':projectID})
             }

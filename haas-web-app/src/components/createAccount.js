@@ -27,7 +27,7 @@ export default function CreateAccount (){
             method:'POST',
             cache: 'no-cache',
             headers: {
-                'content_type':'application/json',
+                'content-type':'application/json',
             },
             body:JSON.stringify({'username': userId, 'password': password})
             }
