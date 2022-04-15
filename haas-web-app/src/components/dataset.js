@@ -14,7 +14,13 @@ export default function Dataset(){
     const[data5,setData5] = useState("");
 
     useEffect(()=>{
-        fetch('/metadata')
+        fetch("/metadata", {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+                'content-type': 'application/json',
+            },
+        } )
             .then(response => response.json())
             .then(async data=> {
                 await setData1(data.Data1)
@@ -26,7 +32,7 @@ export default function Dataset(){
             .catch(error=> {
                 console.log(error)
             })
-    })
+    },[data1,data2,data3,data4,data5])
 
 
     return (
