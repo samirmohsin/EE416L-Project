@@ -17,6 +17,7 @@ export default function Dataset(){
                 <th>Author</th>
                 <th>Description</th>
                 <th>Download</th>
+                <th>Metadata</th>
                 </tr>
                 <tr>
                 <td><a
@@ -43,6 +44,9 @@ export default function Dataset(){
                         <i className="fas fa-arrow-alt-circle-down" />
                     </a>
                 </td>
+                <td>
+                    X
+                </td>
                 </tr>
                 <tr>
                 <td><a
@@ -67,6 +71,9 @@ export default function Dataset(){
                 >
                     <i className="fas fa-arrow-alt-circle-down" />
                 </a>
+                </td>
+                <td>
+                    X
                 </td>
                 </tr>
                 <tr>
@@ -94,6 +101,9 @@ export default function Dataset(){
                     <i className="fas fa-arrow-alt-circle-down" />
                 </a>
                 </td>
+                <td>
+                    X
+                </td>
                 </tr>
                 <tr>
                 <td><a
@@ -119,6 +129,9 @@ export default function Dataset(){
                     >
                         <i className="fas fa-arrow-alt-circle-down" />
                     </a>
+                </td>
+                <td>
+                    X
                 </td>
                 </tr>
                 <tr>
@@ -147,6 +160,9 @@ export default function Dataset(){
                         >
                             <i className="fas fa-arrow-alt-circle-down" />
                     </a>
+                </td>
+                <td>
+                    X
                 </td>
                 </tr>
             </table>
