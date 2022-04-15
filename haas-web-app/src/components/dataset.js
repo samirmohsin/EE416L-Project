@@ -1,9 +1,34 @@
 import './dataset.css';
 import {Link} from 'react-router-dom';
+import {useEffect, useState} from "react";
+
 
 
 
 export default function Dataset(){
+
+    const[data1,setData1] = useState("");
+    const[data2,setData2] = useState("");
+    const[data3,setData3] = useState("");
+    const[data4,setData4] = useState("");
+    const[data5,setData5] = useState("");
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:5000/metadata" )
+            .then(response => response.json())
+            .then(async data=> {
+                await setData1(data.Data1)
+                await setData2(data.Data2)
+                await setData3(data.Data3)
+                await setData4(data.Data4)
+                await setData5(data.Data5)
+            })
+            .catch(error=> {
+                console.log(error)
+            })
+    },[data1,data2,data3,data4,data5])
+
+
     return (
         <div className="dataset">
             <h1>Datasets</h1>
@@ -45,7 +70,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data1}
                 </td>
                 </tr>
                 <tr>
@@ -73,7 +98,7 @@ export default function Dataset(){
                 </a>
                 </td>
                 <td>
-                    X
+                    {data2}
                 </td>
                 </tr>
                 <tr>
@@ -102,7 +127,7 @@ export default function Dataset(){
                 </a>
                 </td>
                 <td>
-                    X
+                    {data3}
                 </td>
                 </tr>
                 <tr>
@@ -131,7 +156,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data4}
                 </td>
                 </tr>
                 <tr>
@@ -162,7 +187,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data5}
                 </td>
                 </tr>
             </table>
