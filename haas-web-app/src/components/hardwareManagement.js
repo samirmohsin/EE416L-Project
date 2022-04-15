@@ -39,7 +39,7 @@ function HardwareManagement() {
     const checkOut = event =>{
         console.log(selectedHWSet);
 
-        fetch('http://127.0.0.1:5000/checkOut/' + window.sessionStorage.getItem('username'), {
+        fetch('/checkOut/' + window.sessionStorage.getItem('username'), {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
@@ -54,7 +54,7 @@ function HardwareManagement() {
     }
 
     const checkIn = event =>{
-        fetch('http://127.0.0.1:5000/checkIn/' + window.sessionStorage.getItem('username'), {
+        fetch('/checkIn/' + window.sessionStorage.getItem('username'), {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {
@@ -100,7 +100,7 @@ function HardwareManagement() {
     },[postResponse])
 
     useEffect(()=>{
-          fetch("http://127.0.0.1:5000/hardwareManagement" )
+          fetch("/hardwareManagement" )
             .then(response => response.json())
             .then(async data=> {
                 await setAvailability1(data.Availability1)
@@ -113,7 +113,7 @@ function HardwareManagement() {
 
     //function to update checkedout amnounts
     useEffect(()=>{
-        fetch("http://127.0.0.1:5000/updateCheckedOut/"+projectID )
+        fetch("/updateCheckedOut/"+projectID )
             .then(response => response.json())
             .then(async data=> {
                 await setCheckedOutAmount1(data.Availability1)

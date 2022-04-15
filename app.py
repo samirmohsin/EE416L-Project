@@ -6,7 +6,7 @@ from bson import ObjectId
 from flask_pymongo import PyMongo
 from flask import Flask, jsonify, request
 from flask.helpers import send_from_directory
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app = Flask(__name__, static_folder='haas-web-app/build', static_url_path="")
 app.config[
@@ -17,7 +17,7 @@ projectsCol = database.projects
 hwSetCol = database.hardwareSets
 usersCol = mongodb_client.db.users
 
-CORS(app)
+#CORS(app)
 
 
 def encryptPassword(inputText):
@@ -298,6 +298,9 @@ def getMetadata():
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))

@@ -1,7 +1,6 @@
 import './login.css';
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Stack, TextField} from "@mui/material";
-import CreateAccount from "./createAccount";
 import {Link} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 
@@ -12,7 +11,7 @@ export default function Login() {
     const [userId, setuserId] = useState("");
     const [password, setPassword] = useState("");
     const [postResponse, setPostResponse] = useState("");
-    const[loggedin,setLoggedin]=useState(false);
+    //const[loggedin,setLoggedin]=useState(false);
     const navigate = useNavigate();
 
     function validateForm(){
@@ -23,7 +22,7 @@ export default function Login() {
         event.preventDefault();
         //alert("Username: "+ userId + "\nPassword: " + password);
 
-        fetch('http://127.0.0.1:5000/login', {
+        fetch('/login', {
                 method:'POST',
                 cache: 'no-cache',
                 headers: {

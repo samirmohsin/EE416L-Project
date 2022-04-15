@@ -1,7 +1,6 @@
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import {Box} from '@mui/system';
 import {TextField} from '@mui/material';import './projects.css';
 import {Link} from 'react-router-dom';
@@ -32,7 +31,7 @@ function Projects() {
         }
         setProjects(projects.concat(newUserProject)); */
 
-        fetch("http://127.0.0.1:5000/createProject", {
+        fetch("/createProject", {
             method:'POST',
             cache: 'no-cache',
             headers: {
@@ -48,7 +47,7 @@ function Projects() {
     const handleDelete = (e) => {
         console.log(JSON.stringify(selectedProject))
 
-        fetch("http://127.0.0.1:5000/deleteProject/" + selectedProject)
+        fetch("/deleteProject/" + selectedProject)
             .then(response => response.json())
             .then(async data=> {
                 await setPostResponse(data.resultVal)
@@ -69,7 +68,7 @@ function Projects() {
     }
 
     const handleJoin = (e) => {
-        fetch("http://127.0.0.1:5000/joinProject", {
+        fetch("/joinProject", {
             method: 'POST',
             cache: 'no-cache',
             headers: {
@@ -121,7 +120,7 @@ function Projects() {
     },[postResponse])
 
     const getProjects = async () => {
-        fetch('http://127.0.0.1:5000/updateProjects/' + window.sessionStorage.getItem('username'))
+        fetch('/updateProjects/' + window.sessionStorage.getItem('username'))
         .then(response => response.json())
         .then(async data => {
             await setProjects(data.resultVal)

@@ -14,7 +14,7 @@ export default function Dataset(){
     const[data5,setData5] = useState("");
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:5000/metadata" )
+        fetch("/metadata" )
             .then(response => response.json())
             .then(async data=> {
                 await setData1(data.Data1)

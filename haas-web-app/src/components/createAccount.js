@@ -1,6 +1,5 @@
-import React, {Component, useEffect, useState} from "react";
-import {Button, linkClasses, Stack, TextField} from "@mui/material";
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import {Button, Stack, TextField} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
 import "./createAccount.css"
 
@@ -24,7 +23,7 @@ export default function CreateAccount (){
         }
         //alert("Username: "+ userId + "\nPassword: " + password);
 
-        fetch('http://127.0.0.1:5000/createUser', {
+        fetch('/createUser', {
             method:'POST',
             cache: 'no-cache',
             headers: {
