@@ -1,4 +1,6 @@
 import json
+import os
+import wfdb
 
 from bson import ObjectId
 from flask_pymongo import PyMongo
@@ -103,7 +105,6 @@ def checkOut(username: str):
 
     if userInProject is None:
         return jsonify({'resultVal': 'ERROR:Not part of project'})
-
 
     projectAvailability1 = project["HWSet1_checked_out"]
     projectAvailability2 = project["HWSet2_checked_out"]
@@ -233,7 +234,7 @@ def joinProject():
 
     checkID = projectsCol.find_one({'ID': {'$eq': projectID}})
     checkUser = usersCol.find_one({'username': username, 'projects': {'$in': [projectID]}})
-    
+
     if checkID is None:
         return jsonify({'resultVal': 'ERROR:join:id'})
     elif checkUser is not None:
@@ -259,6 +260,7 @@ def getProjectTables(username: str):
     print(projectsJSON)
     return jsonify(projectsJSON)
 
+
 @app.route('/metadata', methods=['GET'])
 def getMetadata():
     print("in metadata")
@@ -266,26 +268,32 @@ def getMetadata():
                    'ansiaami-ec13-test-waveforms-1.0.0', 'motion-artifact-contaminated-ecg-database-1.0.0',
                    'examples-of-electromyograms-1.0.0']
     metadata = []
-        # iterate over files in
-        # that directory
+    # iterate over files in
+    # that directory
     for directory in directories:
         print(directory)
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
             # checking if it is a file
-            if os.path.isfile(f):
-                if (f.find('.hea') != -1):
-                    file = f[:len(f)-4]
-                    print(file)
-                    record = wfdb.rdrecord(file)
-                    sigUnits = record.units[0]
-                    sigName = record.sig_name[0]
-                    metadata.add("signalLen: ", record.sig_len, "units: ", sigUnits, "signalName: ", sigName)
+            # if os.path.isfile(f):
+            if (f.find('.hea') != -1):
+                file = f[:len(f) - 4]
+                print(file)
+                record = wfdb.rdrecord(file)
+                sigUnits = record.units[0]
+                sigName = record.sig_name[0]
 
-                    #print("signalLen: ", record.sig_len, "units: ", sigUnits, "signalName: ", sigName)
+                string = "signalLen: " + str(record.sig_len) + "\nunits: " + str(sigUnits) + "\nsignalName: " + str(sigName)
+                metadata.append(string)
+                print("signalLen: ", record.sig_len, "units: ", sigUnits, "signalName: ", sigName)
 
-                    break
-    return jsonify({'Data1' : metadata[0], 'Data2': metadata[1], 'Data3' : metadata[2], "Data4" : metadata[3], "Data5" : metadata[4]})
+                break
+
+    print(metadata)
+
+    return jsonify(
+        {'Data1': metadata[0], 'Data2': metadata[1], 'Data3': metadata[2], "Data4": metadata[3], "Data5": metadata[4]})
+
 
 @app.route('/')
 def index():

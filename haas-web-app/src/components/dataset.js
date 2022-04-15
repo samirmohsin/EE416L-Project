@@ -1,5 +1,7 @@
 import './dataset.css';
 import {Link} from 'react-router-dom';
+import {useEffect, useState} from "react";
+
 
 
 
@@ -68,7 +70,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data1}
                 </td>
                 </tr>
                 <tr>
@@ -96,7 +98,7 @@ export default function Dataset(){
                 </a>
                 </td>
                 <td>
-                    X
+                    {data2}
                 </td>
                 </tr>
                 <tr>
@@ -125,7 +127,7 @@ export default function Dataset(){
                 </a>
                 </td>
                 <td>
-                    X
+                    {data3}
                 </td>
                 </tr>
                 <tr>
@@ -154,7 +156,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data4}
                 </td>
                 </tr>
                 <tr>
@@ -185,7 +187,7 @@ export default function Dataset(){
                     </a>
                 </td>
                 <td>
-                    X
+                    {data5}
                 </td>
                 </tr>
             </table>
