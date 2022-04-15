@@ -1,0 +1,6 @@
+test17_45w 4 500 4000
+test17_45w.dat 16 100/mV 16 0 -33 370 0 ECG 1
+test17_45w.dat 16 100/mV 16 0 0 118 0 ECG 2
+test17_45w.dat 16 100/mV 16 0 -33 51 0 ECG 3
+test17_45w.dat 16 100/mV 16 0 -32 381 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

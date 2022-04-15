@@ -1,0 +1,6 @@
+test18_90w 4 500 4000
+test18_90w.dat 16 100/mV 16 0 2 -71 0 ECG 1
+test18_90w.dat 16 100/mV 16 0 8 -128 0 ECG 2
+test18_90w.dat 16 100/mV 16 0 -12 405 0 ECG 3
+test18_90w.dat 16 100/mV 16 0 -6 502 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

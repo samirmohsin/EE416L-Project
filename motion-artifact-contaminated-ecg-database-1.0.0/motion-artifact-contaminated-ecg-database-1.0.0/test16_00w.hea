@@ -1,0 +1,6 @@
+test16_00w 4 500 4000
+test16_00w.dat 16 100/mV 16 0 24 499 0 ECG 1
+test16_00w.dat 16 100/mV 16 0 -5 690 0 ECG 2
+test16_00w.dat 16 100/mV 16 0 -17 289 0 ECG 3
+test16_00w.dat 16 100/mV 16 0 61 286 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

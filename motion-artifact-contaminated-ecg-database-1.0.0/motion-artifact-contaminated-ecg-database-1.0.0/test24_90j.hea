@@ -1,0 +1,6 @@
+test24_90j 4 500 4000
+test24_90j.dat 16 100/mV 16 0 0 142 0 ECG 1
+test24_90j.dat 16 100/mV 16 0 -2 130 0 ECG 2
+test24_90j.dat 16 100/mV 16 0 4 9 0 ECG 3
+test24_90j.dat 16 100/mV 16 0 -1 317 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

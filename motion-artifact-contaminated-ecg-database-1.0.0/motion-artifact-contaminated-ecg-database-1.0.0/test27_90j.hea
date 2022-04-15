@@ -1,0 +1,6 @@
+test27_90j 4 500 4000
+test27_90j.dat 16 100/mV 16 0 -13 454 0 ECG 1
+test27_90j.dat 16 100/mV 16 0 -12 79 0 ECG 2
+test27_90j.dat 16 100/mV 16 0 0 -37 0 ECG 3
+test27_90j.dat 16 100/mV 16 0 -10 638 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

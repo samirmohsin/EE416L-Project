@@ -1,0 +1,6 @@
+test19_00j 4 500 4000
+test19_00j.dat 16 100/mV 16 0 37 184 0 ECG 1
+test19_00j.dat 16 100/mV 16 0 -5 429 0 ECG 2
+test19_00j.dat 16 100/mV 16 0 -58 -139 0 ECG 3
+test19_00j.dat 16 100/mV 16 0 -60 -256 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)
