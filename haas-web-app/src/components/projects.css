@@ -24,5 +24,10 @@ h1 {
 .select-project {
   display: flex;
   margin-top: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
+}
+
+.project-list {
+  padding-top: 10px;
+  padding-left: 10px;
 }

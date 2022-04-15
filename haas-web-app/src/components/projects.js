@@ -179,12 +179,12 @@ function Projects() {
             </h2>
             <div>
                 {projects.map(({name, description, ID, HWSet1_checked_out, HWSet2_checked_out}) => (
-                    <div>
+                    <div className = 'project-list'>
 
                         <h3>
                             Project Name: {name}
                         </h3>
-                        <ol>
+                        <ul>
                             <li key={description}> 
                                 Description: {description}
                             </li>
@@ -193,14 +193,10 @@ function Projects() {
                             </li>
 
                             <li key={HWSet1_checked_out}>
-                                HWSet 1 Checked Out: {HWSet1_checked_out}  
-                            </li>
-
-                            <li key={HWSet2_checked_out}>
-                                HWSet 2 Checked Out: {HWSet2_checked_out}
-                            </li>
-                            
-                        </ol>
+                                <p>HWSet 1 Checked Out: {HWSet1_checked_out}</p>
+                                <p>HWSet 2 Checked Out: {HWSet2_checked_out}</p>
+                            </li>                            
+                        </ul>
                     </div>
                 ))}
             </div>
