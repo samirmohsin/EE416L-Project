@@ -1,0 +1,6 @@
+test11_45w 4 500 4000
+test11_45w.dat 16 100/mV 16 0 -20 867 0 ECG 1
+test11_45w.dat 16 100/mV 16 0 21 38 0 ECG 2
+test11_45w.dat 16 100/mV 16 0 40 -270 0 ECG 3
+test11_45w.dat 16 100/mV 16 0 -34 445 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

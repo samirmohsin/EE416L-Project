@@ -1,0 +1,6 @@
+test23_45j 4 500 4000
+test23_45j.dat 16 100/mV 16 0 -17 404 0 ECG 1
+test23_45j.dat 16 100/mV 16 0 13 120 0 ECG 2
+test23_45j.dat 16 100/mV 16 0 -15 387 0 ECG 3
+test23_45j.dat 16 100/mV 16 0 -5 595 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

@@ -1,0 +1,6 @@
+test20_45j 4 500 4000
+test20_45j.dat 16 100/mV 16 0 -11 745 0 ECG 1
+test20_45j.dat 16 100/mV 16 0 -25 -114 0 ECG 2
+test20_45j.dat 16 100/mV 16 0 -33 -173 0 ECG 3
+test20_45j.dat 16 100/mV 16 0 13 428 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

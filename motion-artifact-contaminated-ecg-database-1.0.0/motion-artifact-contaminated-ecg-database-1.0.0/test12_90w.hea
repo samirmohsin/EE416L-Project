@@ -1,0 +1,6 @@
+test12_90w 4 500 4000
+test12_90w.dat 16 100/mV 16 0 -79 -3 0 ECG 1
+test12_90w.dat 16 100/mV 16 0 -55 -153 0 ECG 2
+test12_90w.dat 16 100/mV 16 0 -13 285 0 ECG 3
+test12_90w.dat 16 100/mV 16 0 -67 424 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)

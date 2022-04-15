@@ -1,0 +1,6 @@
+test05_45s 4 500 4000
+test05_45s.dat 16 100/mV 16 0 -3 781 0 ECG 1
+test05_45s.dat 16 100/mV 16 0 0 129 0 ECG 2
+test05_45s.dat 16 100/mV 16 0 3 -99 0 ECG 3
+test05_45s.dat 16 100/mV 16 0 -2 260 0 ECG 4
+# <age>: 25  <sex>: M  <diagnoses>: (none)  <medications>: (none)
