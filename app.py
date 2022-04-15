@@ -1,6 +1,4 @@
 import json
-import os
-import wfdb
 
 from bson import ObjectId
 from flask_pymongo import PyMongo
